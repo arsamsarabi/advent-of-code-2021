@@ -3,13 +3,14 @@ type Square = {
   checked: boolean
 }
 
-type CardClass = {
+export type CardClass = {
   _rows: Square[][]
   makeSquares(rows: number[][]): Square[][]
   markChecked(number: number): {
     isWinner: boolean
     score: number
   }
+  containsNumber(number: number): boolean
 }
 
 class Card implements CardClass {
@@ -36,6 +37,12 @@ class Card implements CardClass {
       })
     })
     return { isWinner: this.checkWinner(), score: this.calculateScore(number) }
+  }
+
+  containsNumber(number: number): boolean {
+    return this._rows.some((row: Square[]) => {
+      return row.some((square: Square) => square.number === number)
+    })
   }
 
   private checkWinner(): boolean {
